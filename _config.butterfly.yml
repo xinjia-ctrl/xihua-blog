@@ -3,11 +3,11 @@
 
 # 导航菜单
 menu:
-  首页: / || fas fa-home
-  归档: /archives/ || fas fa-archive
-  分类: /categories/ || fas fa-folder-open
-  标签: /tags/ || fas fa-tags
-  关于: /about/ || fas fa-heart
+  首页: /
+  归档: /archives/
+  分类: /categories/
+  标签: /tags/
+  关于: /about/
 
 # 社交链接
 social:
@@ -15,18 +15,24 @@ social:
 
 # 代码块设置
 code_blocks:
-  theme: darker
-  macStyle: true
+  theme: light
+  macStyle: false
   copy: true
   language: true
   shrink: false
 
-# 文章封面
+# 文章封面（全部禁用）
 cover:
-  index_enable: true
-  aside_enable: true
-  archives_enable: true
+  index_enable: false
+  aside_enable: false
+  archives_enable: false
   default_cover:
+
+# 首页顶部图（白色背景，用于显示站点标题）
+index_img: '#ffffff'
+
+# 禁用页面顶部横幅图（首页用 index_img 单独控制）
+disable_top_img: false
 
 # 文章元数据
 post_meta:
@@ -35,14 +41,19 @@ post_meta:
     date_format: date
     categories: true
     tags: false
-    label: true
+    label: false
   post:
     date_type: both
     categories: true
     tags: true
-    label: true
+    label: false
 
-# 搜索（使用 Local Search）
+# 首页文章列表显示方式
+index_post_content:
+  method: 3
+  length: 150
+
+# 搜索
 search:
   use: local_search
   placeholder: 搜索文章...
@@ -56,57 +67,19 @@ search:
 # 评论系统（Twikoo）
 comments:
   use: Twikoo
-  text: true
+  text: false
   lazyload: false
   count: false
-  card_post_count: false
 
-# Twikoo 配置（需自行填写 envId 才能启用）
 twikoo:
   envId:
   region:
   visitor: false
   option:
 
-# 侧边栏
+# 侧边栏（完全禁用）
 aside:
-  enable: true
-  hide: false
-  button: true
-  mobile: true
-  position: right
-  card_author:
-    enable: true
-    description:
-    button:
-      enable: true
-      icon: fab fa-github
-      text: GitHub
-      link: https://github.com/
-  card_announcement:
-    enable: true
-    content: 欢迎来到我的博客！
-  card_recent_post:
-    enable: true
-    limit: 5
-    sort: date
-    sort_order: desc
-  card_categories:
-    enable: true
-    limit: 8
-    expand: none
-    sort_order: asc
-  card_tags:
-    enable: true
-    limit: 40
-    orderby: random
-    order: asc
-  card_archives:
-    enable: true
-    type: monthly
-    format: YYYY年MM月
-    order: -1
-    limit: 12
+  enable: false
 
 # 页脚
 footer:
@@ -116,8 +89,37 @@ footer:
   custom_text:
   copyright: true
 
-# 页面默认显示模式（light/dark）
+# 页面默认显示模式
 display_mode: light
 
-# 网站背景
-background:
+# 主色
+theme_color:
+  enable: true
+  main: "#146bb7"
+  paginator: "#146bb7"
+  button_hover: "#0d4f8c"
+  link_color: "#146bb7"
+  meta_color: "#999"
+  hr_color: "#eee"
+  blockquote_padding_color: "#146bb7"
+  blockquote_background_color: "#f8f9fa"
+  scrollbar_color: "#146bb7"
+  meta_theme_color_light: "#ffffff"
+  meta_theme_color_dark: "#0d0d0d"
+
+# 圆角
+rounded_corners_ui: false
+
+# Header/Footer 遮罩
+mask:
+  header: false
+  footer: false
+
+# 文章排版
+text_align_justify: true
+
+# Inject 自定义 CSS
+inject:
+  head:
+    - <link rel="stylesheet" href="/css/custom.css">
+  bottom:
