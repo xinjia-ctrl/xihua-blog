@@ -96,15 +96,16 @@
 #nav {
   background: #fff !important;
   padding: 0 30px !important;
-  position: relative;
   height: 48px;
   line-height: 48px;
-  border: none !important;
+  display: flex !important;
+  align-items: center;
 }
 
+/* 左侧：站点标题 */
 #nav #blog-info {
-  position: absolute;
-  left: 30px;
+  flex-shrink: 0;
+  margin-right: 30px;
 }
 
 #nav #blog-info .site-name {
@@ -114,19 +115,24 @@
   text-shadow: none !important;
 }
 
+/* 中间：菜单项 */
 #nav #menus {
-  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0;
 }
 
 #nav .menus_items {
-  display: inline-flex;
-  gap: 20px;
+  display: flex;
+  gap: 24px;
+  margin: 0 auto;
 }
 
 #nav .menus_items .menus_item a {
   color: #666 !important;
   font-size: 0.88em;
-  padding: 0 8px;
+  padding: 0;
   text-shadow: none !important;
   background: transparent !important;
   border-radius: 0;
@@ -141,7 +147,12 @@
   background: transparent !important;
 }
 
-/* 搜索按钮 */
+/* 右侧：搜索按钮 */
+#search-button {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 #search-button .search {
   color: #666 !important;
 }
@@ -151,6 +162,11 @@
 }
 
 /* 移动端菜单按钮 */
+#toggle-menu {
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
 @media (min-width: 769px) {
   #toggle-menu {
     display: none !important;
