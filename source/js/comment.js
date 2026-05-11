@@ -399,4 +399,28 @@
 
   // PJAX 页面切换后重新初始化
   document.addEventListener('pjax:complete', onInit)
+
+  // ---------- 导航栏固定 - PJAX 兼容 ----------
+  // 把导航栏移到 #body-wrap 外面，PJAX 切换时不会替换它
+  function fixNavOutsideBodyWrap() {
+    var bodyWrap = document.getElementById('body-wrap')
+    if (!bodyWrap) return
+
+    // 删除 body-wrap 里面的导航栏（PJAX 新内容里可能带一个）
+    var innerNav = bodyWrap.querySelector('#nav')
+    if (innerNav) innerNav.remove()
+
+    // 获取已移到外面的导航栏，如果不存在则不做处理
+    var nav = document.getElementById('nav')
+    if (!nav) return
+
+    // 如果导航栏又在 body-wrap 里面了，移到外面
+    if (bodyWrap.contains(nav)) {
+      bodyWrap.parentNode.insertBefore(nav, bodyWrap)
+    }
+  }
+
+  // 页面加载和 PJAX 完成后都执行
+  fixNavOutsideBodyWrap()
+  document.addEventListener('pjax:complete', fixNavOutsideBodyWrap)
 })()
