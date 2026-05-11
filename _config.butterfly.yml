@@ -1,0 +1,123 @@
+# Butterfly 主题配置覆盖
+# 文档: https://butterfly.js.org/
+
+# 导航菜单
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  分类: /categories/ || fas fa-folder-open
+  标签: /tags/ || fas fa-tags
+  关于: /about/ || fas fa-heart
+
+# 社交链接
+social:
+  fab fa-github: https://github.com/ || Github || '#24292e'
+
+# 代码块设置
+code_blocks:
+  theme: darker
+  macStyle: true
+  copy: true
+  language: true
+  shrink: false
+
+# 文章封面
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  default_cover:
+
+# 文章元数据
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: false
+    label: true
+  post:
+    date_type: both
+    categories: true
+    tags: true
+    label: true
+
+# 搜索（使用 Local Search）
+search:
+  use: local_search
+  placeholder: 搜索文章...
+  local_search:
+    preload: true
+    top_n_per_article: 1
+    unescape: false
+    pagination:
+      enable: false
+
+# 评论系统（Twikoo）
+comments:
+  use: Twikoo
+  text: true
+  lazyload: false
+  count: false
+  card_post_count: false
+
+# Twikoo 配置（需自行填写 envId 才能启用）
+twikoo:
+  envId:
+  region:
+  visitor: false
+  option:
+
+# 侧边栏
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  card_author:
+    enable: true
+    description:
+    button:
+      enable: true
+      icon: fab fa-github
+      text: GitHub
+      link: https://github.com/
+  card_announcement:
+    enable: true
+    content: 欢迎来到我的博客！
+  card_recent_post:
+    enable: true
+    limit: 5
+    sort: date
+    sort_order: desc
+  card_categories:
+    enable: true
+    limit: 8
+    expand: none
+    sort_order: asc
+  card_tags:
+    enable: true
+    limit: 40
+    orderby: random
+    order: asc
+  card_archives:
+    enable: true
+    type: monthly
+    format: YYYY年MM月
+    order: -1
+    limit: 12
+
+# 页脚
+footer:
+  owner:
+    enable: true
+    since: 2026
+  custom_text:
+  copyright: true
+
+# 页面默认显示模式（light/dark）
+display_mode: light
+
+# 网站背景
+background:
