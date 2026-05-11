@@ -16,7 +16,7 @@ public class JwtUtil {
     private final SecretKey key;
     private final long expiration;
 
-    public JwtUtil(@Value("${jwt.secret:xihua-blog-jwt-secret-key-2026-spring-boot}") String secret,
+    public JwtUtil(@Value("${jwt.secret}") String secret,
                    @Value("${jwt.expiration:86400000}") long expiration) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expiration = expiration;

@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setContent(content);
         comment.setParentId(parentId);
         comment.setIp(ip);
-        comment.setStatus("approved");
+        comment.setStatus("pending");
         commentMapper.insert(comment);
         return comment;
     }

@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -94,8 +95,18 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.selectCount(null);
     }
 
+    private void validateSlug(String slug) {
+        if (slug == null || slug.isBlank()) {
+            throw new IllegalArgumentException("slug 不能为空");
+        }
+        if (!slug.matches("[a-zA-Z0-9_\\-]+")) {
+            throw new IllegalArgumentException("slug 只能包含字母、数字、下划线和连字符");
+        }
+    }
+
     private void writeMdFile(Article article) {
         try {
+            validateSlug(article.getSlug());
             Path dir = Paths.get(blogProperties.getSourcePosts());
             Files.createDirectories(dir);
             String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -122,6 +133,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private void deleteMdFile(Article article) {
         try {
+            validateSlug(article.getSlug());
             Path file = Paths.get(blogProperties.getSourcePosts(), article.getSlug() + ".md");
             Files.deleteIfExists(file);
         } catch (IOException e) {
@@ -141,14 +153,20 @@ public class ArticleServiceImpl implements ArticleService {
             pb.directory(dir.toFile());
             pb.redirectErrorStream(true);
             Process process = pb.start();
-            int exit = process.waitFor();
-            if (exit != 0) {
+            boolean finished = process.waitFor(60, TimeUnit.SECONDS);
+            if (!finished) {
+                process.destroyForcibly();
+                throw new RuntimeException("hexo generate 超时（60秒）");
+            }
+            if (process.exitValue() != 0) {
                 String out = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
                 throw new RuntimeException("hexo generate 失败: " + out);
             }
-        } catch (IOException | InterruptedException e) {
-            Thread.currentThread().interrupt();
+        } catch (IOException e) {
             throw new RuntimeException("重新生成失败: " + e.getMessage(), e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("重新生成被中断", e);
         }
     }
 }

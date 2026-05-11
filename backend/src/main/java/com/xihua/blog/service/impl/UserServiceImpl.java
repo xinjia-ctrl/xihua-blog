@@ -31,13 +31,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(String username, String password, String nickname) {
         if (userMapper.selectCount(new LambdaQueryWrapper<User>().eq(User::getUsername, username)) > 0) {
-            throw new IllegalArgumentException("用户名已存在");
+            throw new IllegalArgumentException("注册失败，请检查输入信息");
         }
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setNickname(nickname != null ? nickname : username);
-        user.setRole("ADMIN");
+        user.setRole("USER");
         userMapper.insert(user);
         return user;
     }
