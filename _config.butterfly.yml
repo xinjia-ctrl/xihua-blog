@@ -112,6 +112,10 @@ mask:
 # 文章排版
 text_align_justify: true
 
+# PJAX 无刷新页面切换
+pjax:
+  enable: true
+
 # Inject 自定义 CSS
 inject:
   head:

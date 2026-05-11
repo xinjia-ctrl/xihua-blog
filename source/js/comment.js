@@ -387,6 +387,16 @@
     renderAuth(wrap, slug, listEl, formArea)
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init)
-  else init()
+  function onInit() {
+    init()
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onInit)
+  } else {
+    onInit()
+  }
+
+  // PJAX 页面切换后重新初始化
+  document.addEventListener('pjax:complete', onInit)
 })()

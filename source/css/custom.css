@@ -44,7 +44,7 @@
 #site-info {
   position: relative !important;
   top: auto !important;
-  padding: 45px 20px 10px !important;
+  padding: 60px 20px 10px !important;
 }
 
 #site-title {
@@ -78,7 +78,7 @@
 #page-site-info {
   position: relative !important;
   top: auto !important;
-  padding: 20px 20px !important;
+  padding: 60px 20px 20px !important;
 }
 
 #page-site-info #site-title {
@@ -93,6 +93,7 @@
 #page-header.post-bg {
   height: auto !important;
   background: #fff !important;
+  padding-top: 48px;
 }
 
 /* ---------- 导航栏 ---------- */
@@ -104,9 +105,24 @@
   display: flex !important;
   align-items: center;
   justify-content: space-between;
-  position: sticky !important;
+  position: fixed !important;
   top: 0 !important;
   z-index: 100 !important;
+  /* 覆盖 Butterfly 主题的 nav-fixed 行为 */
+  transform: none !important;
+  transition: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+/* 覆盖 Butterfly 的各种导航栏状态 */
+#page-header.nav-fixed #nav,
+#page-header.nav-fixed.fixed #nav,
+#page-header.nav-visible:not(.fixed) #nav {
+  top: 0 !important;
+  position: fixed !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 /* 隐藏站点标题（左上角去掉） */
