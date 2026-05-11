@@ -46,15 +46,20 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
 const formRef = ref(null)
 const loading = ref(false)
 const error = ref('')
+
+watch(() => route.query.msg, (msg) => {
+  if (msg) error.value = msg
+}, { immediate: true })
 
 const form = reactive({
   username: '',

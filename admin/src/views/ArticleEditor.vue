@@ -87,8 +87,9 @@ function autoSlug() {
   if (isEdit.value) return
   form.value.slug = form.value.title
     .toLowerCase()
-    .replace(/[^\w一-龥]+/g, '-')
+    .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
+  if (!form.value.slug) form.value.slug = 'post-' + Date.now()
 }
 
 async function saveArticle() {

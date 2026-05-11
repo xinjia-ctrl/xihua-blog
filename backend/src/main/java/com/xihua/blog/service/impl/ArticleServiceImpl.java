@@ -49,6 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getStatus() == null) article.setStatus("published");
         articleMapper.insert(article);
         writeMdFile(article);
+        regenerate();
     }
 
     @Override
@@ -57,6 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleMapper.updateById(article);
         Article full = articleMapper.selectById(article.getId());
         if (full != null) writeMdFile(full);
+        regenerate();
     }
 
     @Override
@@ -65,6 +67,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (article != null) {
             deleteMdFile(article);
             articleMapper.deleteById(id);
+            regenerate();
         }
     }
 
@@ -99,8 +102,8 @@ public class ArticleServiceImpl implements ArticleService {
         if (slug == null || slug.isBlank()) {
             throw new IllegalArgumentException("slug 不能为空");
         }
-        if (!slug.matches("[a-zA-Z0-9_\\-]+")) {
-            throw new IllegalArgumentException("slug 只能包含字母、数字、下划线和连字符");
+        if (slug.contains("/") || slug.contains("\\") || slug.contains("..")) {
+            throw new IllegalArgumentException("slug 包含非法字符");
         }
     }
 
@@ -133,7 +136,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     private void deleteMdFile(Article article) {
         try {
-            validateSlug(article.getSlug());
             Path file = Paths.get(blogProperties.getSourcePosts(), article.getSlug() + ".md");
             Files.deleteIfExists(file);
         } catch (IOException e) {
