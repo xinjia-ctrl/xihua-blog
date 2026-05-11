@@ -374,15 +374,96 @@
   color: #146bb7 !important;
 }
 
-/* ---------- 归档/分类/标签页面 ---------- */
-#archive,
-#category,
-#tag {
-  background: transparent;
-  box-shadow: none;
-  border-radius: 0;
+/* ---------- 归档页面 ---------- */
+#archive {
   padding: 0;
 }
+
+.article-sort-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+/* 年份导航 */
+.article-sort-year-nav {
+  margin-bottom: 24px;
+  font-size: 1em;
+}
+
+.article-sort-year-nav-link {
+  color: #146bb7 !important;
+  text-decoration: none !important;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+.article-sort-year-nav-link:hover {
+  text-decoration: underline !important;
+}
+
+.article-sort-year-nav-sep {
+  color: #ddd;
+  margin: 0 8px;
+}
+
+.article-sort {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.article-sort-item.year {
+  position: relative;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #222;
+  margin: 28px 0 12px;
+  padding: 0 0 0 15px;
+  border: none;
+  background: transparent;
+}
+
+.article-sort-item {
+  position: relative;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+/* 隐藏归档页面左边的蓝色圆点 */
+.article-sort-item::before {
+  display: none !important;
+}
+
+.article-sort-item-time {
+  font-size: 1em;
+  color: #999;
+  margin-bottom: 4px;
+}
+
+.article-sort-item-time i {
+  display: none;
+}
+
+.article-sort-item .article-sort-item-title {
+  font-size: 1.15em;
+  color: #333;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.article-sort-item .article-sort-item-title:hover {
+  color: #146bb7;
+}
+
+.article-sort-item .article-sort-item-img {
+  display: none;
+}
+
+/* ---------- 分类/标签页面 ---------- */
 
 .page-title {
   font-size: 1.5em;
