@@ -95,39 +95,32 @@
 /* ---------- 导航栏 ---------- */
 #nav {
   background: #fff !important;
-  padding: 0 30px !important;
+  padding: 0 20px !important;
   height: 48px;
   line-height: 48px;
   display: flex !important;
   align-items: center;
+  justify-content: space-between;
 }
 
-/* 左侧：站点标题 */
+/* 隐藏站点标题（左上角去掉） */
 #nav #blog-info {
-  flex-shrink: 0;
-  margin-right: 30px;
+  display: none !important;
 }
 
-#nav #blog-info .site-name {
-  color: #333 !important;
-  font-weight: 600;
-  font-size: 0.9em;
-  text-shadow: none !important;
-  white-space: nowrap;
-}
-
-/* 中间：菜单项 */
+/* 左侧：菜单项 */
 #nav #menus {
-  flex: 1;
   display: flex;
   align-items: center;
-  gap: 0;
+  flex-shrink: 0;
 }
 
 #nav .menus_items {
   display: flex;
   gap: 24px;
-  margin: 0 auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 #nav .menus_items .menus_item a {
@@ -148,9 +141,15 @@
   background: transparent !important;
 }
 
-/* 右侧：搜索按钮 */
+/* 右侧区域：搜索 + 登录注册 */
+#nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
 #search-button {
-  margin-left: auto;
   flex-shrink: 0;
 }
 
@@ -160,6 +159,33 @@
 
 #search-button .search:hover {
   color: #146bb7 !important;
+}
+
+/* 登录/注册链接 */
+#nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 0.85em;
+}
+
+#nav-auth a {
+  color: #999 !important;
+  text-decoration: none !important;
+}
+
+#nav-auth a:hover {
+  color: #146bb7 !important;
+}
+
+.nav-auth-sep {
+  color: #ddd;
+  margin: 0 6px;
+}
+
+#nav-user-info {
+  font-size: 0.85em;
+  color: #999;
 }
 
 /* 移动端菜单按钮 */

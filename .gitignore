@@ -8,3 +8,11 @@ public/
 _multiconfig.yml
 .claude/
 themes/butterfly/.git/
+
+# Spring Boot 后端构建产物
+backend/target/
+backend/data/
+
+# Vue 管理后台
+admin/node_modules/
+admin/dist/

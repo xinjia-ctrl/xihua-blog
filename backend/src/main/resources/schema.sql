@@ -1,0 +1,48 @@
+-- 用户表
+CREATE TABLE IF NOT EXISTS xh_user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nickname VARCHAR(50),
+    avatar VARCHAR(500),
+    role VARCHAR(20) NOT NULL DEFAULT 'ADMIN',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 文章表（从 Hexo 同步元数据）
+CREATE TABLE IF NOT EXISTS xh_article (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    slug VARCHAR(200) NOT NULL UNIQUE,
+    category VARCHAR(100),
+    tags VARCHAR(500),
+    summary TEXT,
+    content MEDIUMTEXT,
+    status VARCHAR(20) DEFAULT 'published',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 评论表
+CREATE TABLE IF NOT EXISTS xh_comment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    article_id VARCHAR(200) NOT NULL,
+    author VARCHAR(50) NOT NULL,
+    email VARCHAR(100),
+    content TEXT NOT NULL,
+    parent_id BIGINT DEFAULT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'approved',
+    ip VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 统计表
+CREATE TABLE IF NOT EXISTS xh_stat (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    stat_date DATE NOT NULL,
+    page_views BIGINT DEFAULT 0,
+    unique_visitors BIGINT DEFAULT 0,
+    CONSTRAINT uk_stat_date UNIQUE (stat_date)
+);
+

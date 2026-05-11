@@ -64,18 +64,12 @@ search:
     pagination:
       enable: false
 
-# 评论系统（Twikoo）
+# 评论系统（自建后端）
 comments:
-  use: Twikoo
+  use: false
   text: false
   lazyload: false
   count: false
-
-twikoo:
-  envId:
-  region:
-  visitor: false
-  option:
 
 # 侧边栏（完全禁用）
 aside:
@@ -122,4 +116,6 @@ text_align_justify: true
 inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
+    - <link rel="stylesheet" href="/css/comment.css">
   bottom:
+    - <script src="/js/comment.js"></script>

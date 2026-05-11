@@ -1,0 +1,328 @@
+/* ========== 评论组件样式 ========== */
+
+#xihua-comments {
+  margin: 40px 0;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+#xihua-comments h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px;
+}
+
+/* 评论列表 */
+.xh-comment {
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.xh-comment:last-child {
+  border-bottom: none;
+}
+
+.xh-comment-author {
+  font-size: 0.88em;
+  font-weight: 600;
+  color: #333;
+}
+
+.xh-comment-meta {
+  font-size: 0.78em;
+  color: #999;
+  margin-top: 2px;
+}
+
+.xh-comment-content {
+  font-size: 0.88em;
+  line-height: 1.65;
+  color: #555;
+  margin-top: 8px;
+}
+
+.xh-comment-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 0.88em;
+  padding: 30px 0;
+}
+
+/* 评论表单 */
+.xh-comment-form {
+  margin-top: 24px;
+}
+
+.xh-comment-form .form-row {
+  margin-bottom: 12px;
+}
+
+.xh-comment-form input,
+.xh-comment-form textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 0.88em;
+  color: #333;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.xh-comment-form input:focus,
+.xh-comment-form textarea:focus {
+  border-color: #146bb7;
+}
+
+.xh-comment-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.xh-comment-form .form-row-inline {
+  display: flex;
+  gap: 12px;
+}
+
+.xh-comment-form .form-row-inline input {
+  flex: 1;
+}
+
+.xh-comment-form button {
+  padding: 8px 24px;
+  background: #146bb7;
+  color: #fff;
+  border: none;
+  font-size: 0.88em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.xh-comment-form button:hover {
+  background: #0d4f8c;
+}
+
+.xh-comment-form button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.xh-comment-success {
+  color: #67c23a;
+  font-size: 0.85em;
+  margin-top: 8px;
+}
+
+.xh-comment-error {
+  color: #f56c6c;
+  font-size: 0.85em;
+  margin-top: 8px;
+}
+
+/* 加载中 */
+.xh-comment-loading {
+  text-align: center;
+  color: #999;
+  font-size: 0.85em;
+  padding: 20px 0;
+}
+
+/* ---------- 登录/注册 ---------- */
+.xh-auth-box {
+  margin-top: 24px;
+  padding: 20px;
+  background: #fafafa;
+  border: 1px solid #eee;
+}
+
+.xh-auth-tip {
+  font-size: 0.88em;
+  color: #999;
+  margin: 0 0 12px;
+}
+
+.xh-auth-box input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 0.88em;
+  color: #333;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.xh-auth-box input:focus {
+  border-color: #146bb7;
+}
+
+.xh-auth-box button {
+  padding: 8px 24px;
+  color: #fff;
+  background: #146bb7;
+  border: none;
+  font-size: 0.88em;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex: 1;
+}
+
+.xh-auth-box button:hover {
+  opacity: 0.85;
+}
+
+.xh-auth-box .xh-register-btn {
+  background: #666;
+}
+
+/* ---------- 已登录信息 ---------- */
+.xh-auth-info {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #f0f7ff;
+  border: 1px solid #d4e6f9;
+}
+
+.xh-auth-info .xh-logout-link {
+  color: #999;
+  margin-left: 8px;
+  text-decoration: none;
+}
+
+.xh-auth-info .xh-logout-link:hover {
+  color: #146bb7;
+  text-decoration: underline;
+}
+
+.xh-comment-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 0.88em;
+  color: #333;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.xh-comment-input:focus {
+  border-color: #146bb7;
+}
+
+.xh-comment-email {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 0.88em;
+  color: #333;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.xh-comment-email:focus {
+  border-color: #146bb7;
+}
+
+.xh-comment-submit-btn {
+  padding: 8px 24px;
+  background: #146bb7;
+  color: #fff;
+  border: none;
+  font-size: 0.88em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.xh-comment-submit-btn:hover {
+  background: #0d4f8c;
+}
+
+.xh-comment-submit-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.xh-msg {
+  margin-top: 8px;
+}
+
+#xihua-comments-wrap {
+  margin: 40px 0;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+/* ---------- 模态弹窗 ---------- */
+#xh-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+#xh-modal-overlay .xh-modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+}
+
+#xh-modal-overlay .xh-modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 28px 24px 24px;
+  min-width: 320px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+#xh-modal-overlay .xh-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-size: 1.3em;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+}
+
+#xh-modal-overlay .xh-modal-close:hover {
+  color: #333;
+}
+
+.xh-modal-auth input:focus {
+  border-color: #146bb7 !important;
+}
+
+@media (max-width: 600px) {
+  .xh-comment-form .form-row-inline,
+  .xh-auth-box .form-row-inline {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
