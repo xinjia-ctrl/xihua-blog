@@ -500,21 +500,83 @@
 }
 
 /* ---------- 标签云页面 ---------- */
+.tag-cloud-list {
+  text-align: left !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+}
+
 .tag-cloud-list a {
+  display: inline-block;
+  padding: 6px 18px;
+  font-size: 1em !important;
   color: #666 !important;
+  background: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  text-decoration: none !important;
+  background-color: transparent !important;
+  transition: all 0.25s ease;
+  line-height: 1.6;
 }
 
 .tag-cloud-list a:hover {
-  color: #146bb7 !important;
+  color: #fff !important;
+  background: #146bb7 !important;
+  border-color: #146bb7;
 }
 
 /* ---------- 分类页面 ---------- */
+.category-lists {
+  padding: 0;
+}
+
+.category-lists ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.category-lists ul li {
+  margin: 0;
+}
+
+/* 隐藏分类列表的默认蓝点 */
+.category-lists ul li::before {
+  display: none !important;
+}
+
 .category-lists ul li a {
-  color: #666 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  color: #333 !important;
+  text-decoration: none !important;
+  border: 1px solid #eee;
+  transition: all 0.25s ease;
+  text-align: center;
 }
 
 .category-lists ul li a:hover {
+  border-color: #146bb7;
   color: #146bb7 !important;
+}
+
+.category-list-link {
+  font-size: 1.3em;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.category-list-count {
+  display: none !important;
 }
 
 /* ---------- 关于页面 ---------- */
