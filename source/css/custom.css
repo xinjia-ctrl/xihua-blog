@@ -478,7 +478,8 @@
   padding: 0;
 }
 
-.article-sort-title {
+#category .article-sort-title,
+#tag .article-sort-title {
   color: #333;
   font-weight: 700;
 }
