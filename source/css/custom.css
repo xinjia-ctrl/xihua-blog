@@ -233,13 +233,8 @@
   background: transparent !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+  border: none !important;
   transition: none !important;
-  padding-bottom: 25px;
-  border-bottom: 1px solid #eee;
-}
-
-.recent-post-item:hover {
-  box-shadow: none !important;
 }
 
 .recent-post-item .post_cover {
@@ -249,29 +244,41 @@
 .recent-post-info {
   padding: 0 !important;
   width: 100% !important;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 分类链接和日期 */
+/* 元信息（分类 —— 日期）显示在标题上方 */
 .recent-post-info .article-meta-wrap {
-  margin: 0 0 6px !important;
-  font-size: 0.82em !important;
-  color: #999 !important;
+  order: -1;
+  margin: 0 0 8px !important;
+  font-size: 1em !important;
+  color: #146bb7 !important;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.recent-post-info .article-meta-wrap i {
-  display: none !important;
-}
-
-.recent-post-info .article-meta-wrap .article-meta-separator {
-  display: none !important;
-}
-
+.recent-post-info .article-meta-wrap i,
+.recent-post-info .article-meta-wrap .article-meta-separator,
 .recent-post-info .article-meta-wrap .article-meta-label {
   display: none !important;
 }
 
-.recent-post-info .article-meta-wrap a {
+.recent-post-info .article-meta-wrap .article-meta {
+  order: 1;
+}
+
+.recent-post-info .article-meta-wrap .post-meta-date {
+  order: 2;
+}
+
+.recent-post-info .article-meta-wrap span,
+.recent-post-info .article-meta-wrap a,
+.recent-post-info .article-meta-wrap time {
   color: #146bb7 !important;
+}
+
+.recent-post-info .article-meta-wrap a {
   text-decoration: none !important;
   font-weight: 500;
 }
@@ -280,18 +287,15 @@
   text-decoration: underline !important;
 }
 
-.recent-post-info .post-meta-date {
-  display: inline;
-  color: #999;
-}
-
-.recent-post-info .post-meta-date time {
-  color: #999;
+/* 分类后面加 —— 分隔线 */
+.recent-post-info .article-meta-wrap .article-meta::after {
+  content: " —— ";
+  color: #146bb7 !important;
 }
 
 /* 文章标题 */
 .recent-post-info .article-title {
-  font-size: 1.2em !important;
+  font-size: 1.55em !important;
   line-height: 1.4 !important;
   font-weight: 600 !important;
   -webkit-line-clamp: 2 !important;
@@ -306,7 +310,7 @@
 
 /* 文章摘要 */
 .recent-post-info .content {
-  font-size: 0.88em !important;
+  font-size: 1.05em !important;
   line-height: 1.65 !important;
   color: #888 !important;
   margin-top: 6px !important;
