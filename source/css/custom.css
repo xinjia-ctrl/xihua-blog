@@ -33,6 +33,7 @@
   background-attachment: scroll !important;
   background-size: auto !important;
   border-bottom: 1px solid #eee;
+  background: #fff !important;
 }
 
 #page-header.full_page:before {
@@ -71,6 +72,7 @@
 #page-header.not-home-page {
   height: auto !important;
   min-height: auto !important;
+  background: #fff !important;
 }
 
 #page-site-info {
@@ -90,6 +92,7 @@
 /* 文章页面头部 */
 #page-header.post-bg {
   height: auto !important;
+  background: #fff !important;
 }
 
 /* ---------- 导航栏 ---------- */
@@ -101,6 +104,9 @@
   display: flex !important;
   align-items: center;
   justify-content: space-between;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
 }
 
 /* 隐藏站点标题（左上角去掉） */
