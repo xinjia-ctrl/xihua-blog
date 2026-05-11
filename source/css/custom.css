@@ -111,8 +111,9 @@
 #nav #blog-info .site-name {
   color: #333 !important;
   font-weight: 600;
-  font-size: 1em;
+  font-size: 0.9em;
   text-shadow: none !important;
+  white-space: nowrap;
 }
 
 /* 中间：菜单项 */
