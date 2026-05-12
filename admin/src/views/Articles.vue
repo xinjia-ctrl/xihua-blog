@@ -11,7 +11,6 @@
       <el-table :data="articles" v-loading="loading" stripe style="width: 100%">
         <el-table-column prop="title" label="标题" min-width="250" show-overflow-tooltip />
         <el-table-column prop="category" label="分类" width="100" />
-        <el-table-column prop="tags" label="标签" width="180" show-overflow-tooltip />
         <el-table-column prop="status" label="状态" width="80">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'published' ? 'success' : 'info'" size="small">

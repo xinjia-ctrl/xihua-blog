@@ -13,7 +13,6 @@ public class Article {
     private String title;
     private String slug;
     private String category;
-    private String tags;
     private String summary;
     private String content;
     private String status;

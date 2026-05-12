@@ -47,7 +47,11 @@ public class AdminController {
 
     @PutMapping("/comments/{id}")
     public Result<Void> updateCommentStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
-        commentService.updateCommentStatus(id, body.get("status"));
+        String status = body.get("status");
+        if (status == null || (!status.equals("approved") && !status.equals("rejected") && !status.equals("pending"))) {
+            return Result.error(400, "无效的状态值");
+        }
+        commentService.updateCommentStatus(id, status);
         return Result.success();
     }
 
@@ -78,7 +82,6 @@ public class AdminController {
                 body.get("title"),
                 body.get("slug"),
                 body.get("category"),
-                body.get("tags"),
                 body.get("summary")
         );
         return Result.success();

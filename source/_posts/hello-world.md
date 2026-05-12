@@ -1,7 +1,5 @@
 ---
 title: 你好，博客
-tags:
-  - 随笔
 categories:
   - 杂谈
 abbrlink: 34788

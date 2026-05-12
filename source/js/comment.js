@@ -1,17 +1,21 @@
 /**
- * 溪花博客 - 评论组件 + 导航栏登录
+ * 溪花博客 - 评论组件 + 导航栏登录注册
+ * 无内联样式，纯 CSS 类控制
  */
 ;(function () {
   'use strict'
 
-  var port = window.location.port
-  var API = (port === '4001' || port === '4000' ? 'http://localhost:8080' : '') + '/api'
+  var API = (function () {
+    var p = window.location.port
+    return (p === '4000' || p === '4001' ? 'http://localhost:8080' : '') + '/api'
+  })()
+
   var TOKEN_KEY = 'token'
   var USER_KEY = 'xihua_user'
 
+  // -- 工具函数 --
   function getSlug() {
-    var path = window.location.pathname.replace(/\/+$/, '')
-    return path.split('/').pop() || ''
+    return window.location.pathname.replace(/\/+$/, '').split('/').pop() || ''
   }
 
   function esc(t) {
@@ -32,16 +36,14 @@
           var res = JSON.parse(xhr.responseText)
           if (res.code === 200) resolve(res.data)
           else reject(res.msg || '请求失败')
-        } catch (e) {
-          reject('响应解析失败')
-        }
+        } catch (e) { reject('响应解析失败') }
       }
       xhr.onerror = function () { reject('网络错误') }
       xhr.send(body ? JSON.stringify(body) : null)
     })
   }
 
-  // ---------- 登录状态 ----------
+  // -- 认证持久化 --
   function getToken() { return localStorage.getItem(TOKEN_KEY) }
 
   function getUser() {
@@ -62,7 +64,7 @@
     localStorage.removeItem(USER_KEY)
   }
 
-  // ---------- 导航栏认证状态 ----------
+  // -- 导航栏认证状态 --
   function updateNavAuth() {
     var user = getUser()
     var loginLink = document.getElementById('nav-login-link')
@@ -77,12 +79,11 @@
       if (sep) sep.style.display = 'none'
       userInfo.style.display = 'inline'
       userInfo.innerHTML = '<strong>' + esc(user.nickname) + '</strong>' +
-        ' <a href="#" id="nav-logout-link" style="color:#999;text-decoration:none;margin-left:6px;">退出</a>'
+        ' <a href="#" id="nav-logout-link" style="margin-left:6px;">退出</a>'
       document.getElementById('nav-logout-link').onclick = function (e) {
         e.preventDefault()
         clearAuth()
         updateNavAuth()
-        // 如果评论区域打开，刷新其状态
         refreshCommentAuth()
       }
     } else {
@@ -103,7 +104,7 @@
     }
   }
 
-  // ---------- 模态弹窗 ----------
+  // -- 模态弹窗 --
   var modalCreated = false
 
   function createModal() {
@@ -121,6 +122,9 @@
 
     div.querySelector('.xh-modal-mask').onclick = closeModal
     div.querySelector('.xh-modal-close').onclick = closeModal
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal()
+    })
   }
 
   function openModal(html) {
@@ -128,6 +132,9 @@
     var overlay = document.getElementById('xh-modal-overlay')
     overlay.querySelector('.xh-modal-body').innerHTML = html
     overlay.style.display = 'block'
+    // 自动聚焦第一个输入框
+    var firstInput = overlay.querySelector('input:not([type="hidden"])')
+    if (firstInput) setTimeout(function () { firstInput.focus() }, 100)
   }
 
   function closeModal() {
@@ -135,38 +142,68 @@
     if (overlay) overlay.style.display = 'none'
   }
 
+  // -- 认证弹窗 --
   function showAuthModal(mode) {
+    var isLogin = mode === 'login'
     var html =
       '<div class="xh-modal-auth">' +
-        '<h3 style="margin:0 0 16px;font-size:1.1em;color:#333;">' + (mode === 'login' ? '登录' : '注册') + '</h3>' +
-        '<div class="form-row" style="margin-bottom:12px;">' +
-          '<input type="text" id="xh-modal-user" placeholder="用户名" style="width:100%;padding:8px 12px;border:1px solid #ddd;font-size:0.88em;box-sizing:border-box;outline:none;" />' +
+        '<h3>' + (isLogin ? '登录' : '注册') + '</h3>' +
+        '<div class="xh-modal-subtitle">' + (isLogin ? '欢迎回来' : '创建一个新账号') + '</div>' +
+
+        '<div class="xh-form-group">' +
+          '<label>用户名</label>' +
+          '<input type="text" id="xh-modal-user" placeholder="请输入用户名" autocomplete="username" />' +
         '</div>' +
-        '<div class="form-row" style="margin-bottom:16px;">' +
-          '<input type="password" id="xh-modal-pass" placeholder="密码" style="width:100%;padding:8px 12px;border:1px solid #ddd;font-size:0.88em;box-sizing:border-box;outline:none;" />' +
+
+        '<div class="xh-form-group">' +
+          '<label>密码</label>' +
+          '<input type="password" id="xh-modal-pass" placeholder="' + (isLogin ? '请输入密码' : '至少 6 位密码') + '" autocomplete="' + (isLogin ? 'current-password' : 'new-password') + '" />' +
         '</div>' +
-        '<div class="form-row" style="display:flex;gap:12px;">' +
-          '<button id="xh-modal-submit" style="flex:1;padding:8px 24px;background:#146bb7;color:#fff;border:none;font-size:0.88em;cursor:pointer;">' + (mode === 'login' ? '登录' : '注册') + '</button>' +
+
+        (!isLogin ? '<div class="xh-form-group">' +
+          '<label>昵称（可选）</label>' +
+          '<input type="text" id="xh-modal-nickname" placeholder="显示名称，默认为用户名" autocomplete="nickname" />' +
+        '</div>' : '') +
+
+        '<button class="xh-btn-primary" id="xh-modal-submit">' + (isLogin ? '登录' : '注册') + '</button>' +
+
+        '<div class="xh-modal-msg" id="xh-modal-msg"></div>' +
+
+        '<div class="xh-modal-footer">' +
+          (isLogin
+            ? '没有账号？<a id="xh-switch-auth">去注册</a>'
+            : '已有账号？<a id="xh-switch-auth">去登录</a>') +
         '</div>' +
-        '<div class="xh-modal-auth-switch" style="margin-top:12px;font-size:0.82em;color:#999;text-align:center;">' +
-          (mode === 'login'
-            ? '没有账号？<a href="#" id="xh-switch-to-reg" style="color:#146bb7;text-decoration:none;">去注册</a>'
-            : '已有账号？<a href="#" id="xh-switch-to-login" style="color:#146bb7;text-decoration:none;">去登录</a>') +
-        '</div>' +
-        '<div class="xh-modal-msg" style="margin-top:10px;font-size:0.85em;"></div>' +
       '</div>'
 
     openModal(html)
 
     var body = document.querySelector('.xh-modal-body')
-    body.querySelector('#xh-modal-submit').onclick = function () {
+    var msgEl = body.querySelector('#xh-modal-msg')
+    var submitBtn = body.querySelector('#xh-modal-submit')
+
+    // 回车提交
+    body.querySelectorAll('input').forEach(function (inp) {
+      inp.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') submitBtn.click()
+      })
+    })
+
+    submitBtn.onclick = function () {
       var u = body.querySelector('#xh-modal-user').value.trim()
       var p = body.querySelector('#xh-modal-pass').value.trim()
-      if (!u || !p) { showModalMsg('请填写用户名和密码', 'error'); return }
-      if (mode === 'register' && p.length < 6) { showModalMsg('密码至少6位', 'error'); return }
+      if (!u || !p) { showMsg('请填写用户名和密码', 'error'); return }
+      if (!isLogin && p.length < 6) { showMsg('密码至少 6 位', 'error'); return }
 
-      var endpoint = mode === 'login' ? '/auth/login' : '/auth/register'
-      var payload = mode === 'login' ? { username: u, password: p } : { username: u, password: p, nickname: u }
+      submitBtn.disabled = true
+      submitBtn.textContent = isLogin ? '登录中...' : '注册中...'
+
+      var endpoint = isLogin ? '/auth/login' : '/auth/register'
+      var payload = { username: u, password: p }
+      if (!isLogin) {
+        var nn = body.querySelector('#xh-modal-nickname')
+        payload.nickname = nn ? nn.value.trim() || u : u
+      }
 
       api(endpoint, 'POST', payload)
         .then(function (data) {
@@ -175,53 +212,42 @@
           updateNavAuth()
           refreshCommentAuth()
         })
-        .catch(function (e) { showModalMsg(e, 'error') })
+        .catch(function (e) {
+          showMsg(e, 'error')
+          submitBtn.disabled = false
+          submitBtn.textContent = isLogin ? '登录' : '注册'
+        })
     }
 
-    var switchLink = body.querySelector('#xh-switch-to-reg') || body.querySelector('#xh-switch-to-login')
-    if (switchLink) {
-      switchLink.onclick = function (e) {
-        e.preventDefault()
-        showAuthModal(mode === 'login' ? 'register' : 'login')
-      }
+    body.querySelector('#xh-switch-auth').onclick = function (e) {
+      e.preventDefault()
+      showAuthModal(isLogin ? 'register' : 'login')
     }
 
-    function showModalMsg(text, type) {
-      var el = body.querySelector('.xh-modal-msg')
-      if (el) {
-        el.textContent = text
-        el.style.color = type === 'error' ? '#f56c6c' : '#67c23a'
-      }
+    function showMsg(text, type) {
+      msgEl.textContent = text
+      msgEl.className = 'xh-modal-msg ' + type
     }
   }
 
-  // ---------- 导航栏事件绑定 ----------
+  // -- 导航栏事件 --
   function initNavAuth() {
     var loginLink = document.getElementById('nav-login-link')
     var registerLink = document.getElementById('nav-register-link')
 
-    if (loginLink) {
-      loginLink.onclick = function (e) {
-        e.preventDefault()
-        showAuthModal('login')
-      }
-    }
-    if (registerLink) {
-      registerLink.onclick = function (e) {
-        e.preventDefault()
-        showAuthModal('register')
-      }
-    }
+    if (loginLink) loginLink.onclick = function (e) { e.preventDefault(); showAuthModal('login') }
+    if (registerLink) registerLink.onclick = function (e) { e.preventDefault(); showAuthModal('register') }
 
     updateNavAuth()
   }
 
-  // ---------- 评论组件 ----------
-
+  // -- 评论渲染 --
   function renderComments(items) {
-    if (!items || items.length === 0) return '<div class="xh-comment-empty">暂无评论</div>'
+    if (!items || items.length === 0) return '<div class="xh-comment-empty">暂无评论，来说两句吧</div>'
     return items.map(function (c) {
-      var d = c.createdAt ? new Date(c.createdAt).toLocaleString('zh-CN', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : ''
+      var d = c.createdAt
+        ? new Date(c.createdAt).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+        : ''
       return '<div class="xh-comment">' +
         '<div class="xh-comment-author">' + esc(c.author) + '</div>' +
         '<div class="xh-comment-meta">' + d + '</div>' +
@@ -239,6 +265,7 @@
 
   function submitComment(slug, input, emailEl, btn, listEl, formEl) {
     var content = input.value.trim()
+    if (!content) return
     var email = emailEl ? emailEl.value.trim() : ''
     btn.disabled = true
     btn.textContent = '提交中...'
@@ -248,16 +275,16 @@
         fetchComments(slug, listEl)
         btn.disabled = false
         btn.textContent = '发表评论'
-        msg(formEl, '评论发表成功', 'success')
+        setMsg(formEl, '评论发表成功', 'success')
       })
       .catch(function (e) {
         btn.disabled = false
         btn.textContent = '发表评论'
-        msg(formEl, e, 'error')
+        setMsg(formEl, e, 'error')
       })
   }
 
-  function msg(parent, text, type) {
+  function setMsg(parent, text, type) {
     var old = parent.querySelector('.xh-msg')
     if (old) old.remove()
     var el = document.createElement('div')
@@ -267,7 +294,7 @@
     if (type === 'success') setTimeout(function () { el.remove() }, 5000)
   }
 
-  // ---------- 登录/注册面板 ----------
+  // -- 评论区认证面板 --
   function renderAuth(container, slug, listEl, formArea) {
     var user = getUser()
     if (user) {
@@ -277,48 +304,56 @@
 
     formArea.innerHTML =
       '<div class="xh-auth-box">' +
-        '<p class="xh-auth-tip">请登录后发表评论</p>' +
-        '<div class="form-row form-row-inline">' +
+        '<p class="xh-auth-tip">登录后即可评论</p>' +
+        '<div class="xh-form-inline">' +
           '<input type="text" class="xh-login-user" placeholder="用户名" />' +
           '<input type="password" class="xh-login-pass" placeholder="密码" />' +
         '</div>' +
-        '<div class="form-row" style="display:flex;gap:12px;">' +
-          '<button class="xh-login-btn">登录</button>' +
-          '<button class="xh-register-btn">注册</button>' +
+        '<div class="xh-btn-group">' +
+          '<button class="xh-btn xh-btn-login">登录</button>' +
+          '<button class="xh-btn xh-btn-secondary xh-btn-register">注册</button>' +
         '</div>' +
+        '<div class="xh-msg" style="margin-top:10px;"></div>' +
       '</div>'
 
     var box = formArea.querySelector('.xh-auth-box')
 
-    box.querySelector('.xh-login-btn').onclick = function () {
+    // 回车提交
+    box.querySelectorAll('input').forEach(function (inp) {
+      inp.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') box.querySelector('.xh-btn-login').click()
+      })
+    })
+
+    box.querySelector('.xh-btn-login').onclick = function () {
       var u = box.querySelector('.xh-login-user').value.trim()
       var p = box.querySelector('.xh-login-pass').value.trim()
-      if (!u || !p) { msg(box, '请填写用户名和密码', 'error'); return }
+      if (!u || !p) { setMsg(box, '请填写用户名和密码', 'error'); return }
       api('/auth/login', 'POST', { username: u, password: p })
         .then(function (data) {
           saveAuth(data)
           updateNavAuth()
           renderCommentForm(container, slug, listEl, getUser())
         })
-        .catch(function (e) { msg(box, e, 'error') })
+        .catch(function (e) { setMsg(box, e, 'error') })
     }
 
-    box.querySelector('.xh-register-btn').onclick = function () {
+    box.querySelector('.xh-btn-register').onclick = function () {
       var u = box.querySelector('.xh-login-user').value.trim()
       var p = box.querySelector('.xh-login-pass').value.trim()
-      if (!u || !p) { msg(box, '请填写用户名和密码', 'error'); return }
-      if (p.length < 6) { msg(box, '密码至少6位', 'error'); return }
+      if (!u || !p) { setMsg(box, '请填写用户名和密码', 'error'); return }
+      if (p.length < 6) { setMsg(box, '密码至少 6 位', 'error'); return }
       api('/auth/register', 'POST', { username: u, password: p, nickname: u })
         .then(function (data) {
           saveAuth(data)
           updateNavAuth()
           renderCommentForm(container, slug, listEl, getUser())
         })
-        .catch(function (e) { msg(box, e, 'error') })
+        .catch(function (e) { setMsg(box, e, 'error') })
     }
   }
 
-  // ---------- 评论表单 ----------
+  // -- 评论表单 --
   function renderCommentForm(container, slug, listEl, user) {
     var formArea = container.querySelector('.xh-comment-form-area')
     formArea.innerHTML =
@@ -327,14 +362,14 @@
           '已登录：<strong>' + esc(user.nickname) + '</strong>' +
           ' <a href="#" class="xh-logout-link">退出</a>' +
         '</div>' +
-        '<div class="form-row">' +
+        '<div class="xh-form-row">' +
           '<textarea class="xh-comment-input" placeholder="写下你的评论..." rows="4"></textarea>' +
         '</div>' +
-        '<div class="form-row">' +
-          '<input type="email" class="xh-comment-email" placeholder="邮箱（可选）" />' +
+        '<div class="xh-form-row">' +
+          '<input type="email" class="xh-comment-email" placeholder="邮箱（选填，用于 Gravatar 头像）" />' +
         '</div>' +
-        '<div class="form-row">' +
-          '<button class="xh-comment-submit-btn">发表评论</button>' +
+        '<div class="xh-form-row">' +
+          '<button class="xh-btn xh-btn-submit">发表评论</button>' +
         '</div>' +
       '</div>'
 
@@ -347,24 +382,28 @@
       renderAuth(container, slug, listEl, formArea)
     }
 
-    form.querySelector('.xh-comment-submit-btn').onclick = function () {
+    form.querySelector('.xh-btn-submit').onclick = function () {
       var input = form.querySelector('.xh-comment-input')
       var email = form.querySelector('.xh-comment-email')
       if (!input.value.trim()) { input.focus(); return }
       submitComment(slug, input, email, this, listEl, form)
     }
+
+    // Ctrl+Enter 提交
+    form.querySelector('.xh-comment-input').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        form.querySelector('.xh-btn-submit').click()
+      }
+    })
   }
 
-  // ---------- 初始化 ----------
+  // -- 初始化 --
   function init() {
-    // 初始化导航栏认证
     initNavAuth()
 
-    // 初始化评论区域（仅在文章页面）
     var slug = getSlug()
     if (!slug) return
 
-    // 检查是否有文章内容区域（只在文章页显示评论）
     var postEl = document.querySelector('#post')
     if (!postEl) return
 
@@ -376,7 +415,7 @@
     }
 
     wrap.innerHTML =
-      '<h3 style="font-size:1.1em;font-weight:600;color:#333;margin:0 0 20px;">评论</h3>' +
+      '<h3 class="xh-comments-title">评论</h3>' +
       '<div class="xh-comment-list"></div>' +
       '<div class="xh-comment-form-area"></div>'
 
@@ -387,9 +426,7 @@
     renderAuth(wrap, slug, listEl, formArea)
   }
 
-  function onInit() {
-    init()
-  }
+  function onInit() { init() }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', onInit)
@@ -397,31 +434,22 @@
     onInit()
   }
 
-  // PJAX 页面切换后重新初始化
   document.addEventListener('pjax:complete', onInit)
 
-  // ---------- 导航栏固定 - PJAX 兼容 ----------
-  // 把导航栏移到 #body-wrap 外面，PJAX 切换时不会替换它
+  // -- PJAX: 把导航栏移到 #body-wrap 外部 --
   function fixNavOutsideBodyWrap() {
     var bodyWrap = document.getElementById('body-wrap')
     if (!bodyWrap) return
-
     var innerNav = bodyWrap.querySelector('#nav')
     if (!innerNav) return
-
     var outerNav = document.getElementById('nav')
-
-    // 如果内外是同一个元素，说明还没被移出过，移到 body-wrap 外面
     if (outerNav === innerNav) {
       bodyWrap.parentNode.insertBefore(innerNav, bodyWrap)
-      return
+    } else {
+      innerNav.remove()
     }
-
-    // 否则是 PJAX 新内容里带的重复导航栏，删掉
-    innerNav.remove()
   }
 
-  // 页面加载和 PJAX 完成后都执行
   fixNavOutsideBodyWrap()
   document.addEventListener('pjax:complete', fixNavOutsideBodyWrap)
 })()

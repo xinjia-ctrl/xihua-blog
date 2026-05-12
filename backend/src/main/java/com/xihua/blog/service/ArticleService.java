@@ -10,6 +10,6 @@ public interface ArticleService {
     void updateArticle(Article article);
     void deleteArticle(Long id);
     void regenerate();
-    void syncArticle(String title, String slug, String category, String tags, String summary);
+    void syncArticle(String title, String slug, String category, String summary);
     long getArticleCount();
 }

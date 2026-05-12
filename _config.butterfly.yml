@@ -1,60 +1,231 @@
-# Butterfly 主题配置覆盖
+# Butterfly 主题配置
 # 文档: https://butterfly.js.org/
 
-# 导航菜单
+# ========================
+# 导航栏
+# ========================
+nav:
+  logo:
+  display_title: true
+  display_post_title: true
+  fixed: true
+
 menu:
-  首页: /
-  归档: /archives/
-  分类: /categories/
-  标签: /tags/
-  关于: /about/
-  后台: /admin/
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  分类: /categories/ || fas fa-folder-open
+  关于: /about/ || fas fa-info-circle
+  后台: /admin/ || fas fa-cog
 
+# ========================
 # 社交链接
+# ========================
 social:
-  fab fa-github: https://github.com/ || Github || '#24292e'
+  fab fa-github: https://github.com/xinjia-ctrl || Github || '#24292e'
+  fas fa-envelope: mailto:i@xihua.blog || Email || '#4a7dbe'
 
-# 代码块设置
+# ========================
+# 代码块
+# ========================
 code_blocks:
-  theme: light
-  macStyle: false
+  theme: ocean
+  macStyle: true
+  height_limit: false
+  word_wrap: false
   copy: true
   language: true
   shrink: false
+  fullpage: true
 
-# 文章封面（全部禁用）
-cover:
-  index_enable: false
-  aside_enable: false
-  archives_enable: false
-  default_cover:
+# ========================
+# 图标 / 头像
+# ========================
+favicon: /img/favicon.svg?v=2
 
-# 首页顶部图（白色背景，用于显示站点标题）
-index_img: '#ffffff'
+avatar:
+  img: https://img.tuxiangyan.com/uploads/allimg/2021082518/ka4d0cvx3c5.jpg
+  effect: true
 
-# 禁用页面顶部横幅图（首页用 index_img 单独控制）
+# ========================
+# 横幅图片配置
+# ========================
 disable_top_img: false
 
+# 首页横幅 - 使用 beautiful web 渐变背景
+index_img: 'linear-gradient(135deg, #a8e0ff 0%, #c2e9fb 100%)'
+index_site_info_top: 40%
+
+# 子标题（打字机效果）
+subtitle:
+  enable: true
+  effect: false
+  source: false
+  sub:
+    - ''
+
+# 其他页面横幅
+archive_img: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+category_img: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+default_top_img: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+
+# ========================
+# 文章封面图
+# ========================
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  default_cover:
+    - https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80
+    - https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=800&q=80
+    - https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80
+    - https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&q=80
+    - https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80
+
+# ========================
 # 文章元数据
+# ========================
 post_meta:
   page:
     date_type: created
     date_format: date
     categories: true
     tags: false
-    label: false
+    label: true
   post:
+    position: left
     date_type: both
+    date_format: date
     categories: true
-    tags: true
-    label: false
+    tags: false
+    label: true
 
-# 首页文章列表显示方式
+# ========================
+# 首页文章布局
+# ========================
+index_layout: 4
 index_post_content:
   method: 3
-  length: 150
+  length: 200
 
+# ========================
+# 文章页面
+# ========================
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+  scroll_percent: true
+
+post_copyright:
+  enable: true
+  decode: false
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+reward:
+  enable: false
+
+related_post:
+  enable: false
+
+post_pagination: 1
+
+noticeOutdate:
+  enable: true
+  style: flat
+  limit_day: 365
+  position: top
+  message_prev: 本文最后更新于
+  message_next: 天前，内容可能已过期
+
+# ========================
+# 页脚
+# ========================
+footer:
+  owner:
+    enable: true
+    since: 2026
+  copyright: true
+  custom_text: '<i class="fas fa-heart" style="color: #ff6b6b"></i> 用心记录'
+
+# ========================
+# 侧边栏
+# ========================
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  display:
+    archive: true
+    tag: false
+    category: true
+  card_author:
+    enable: true
+    description: 全栈开发者，热爱技术和分享
+    button:
+      enable: true
+      icon: fab fa-github
+      text: 关注我
+      link: https://github.com/xinjia-ctrl
+  card_announcement:
+    enable: true
+    content: 欢迎来到我的个人博客 🌻
+  card_recent_post:
+    enable: true
+    limit: 5
+    sort: date
+  card_categories:
+    enable: true
+    limit: 8
+    expand: none
+  card_tags:
+    enable: false
+  card_archives:
+    enable: true
+    type: monthly
+    format: YYYY 年 MM 月
+    order: -1
+    limit: 8
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+
+# ========================
+# 深色模式
+# ========================
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 1
+
+readmode: true
+
+# ========================
+# 全局设置
+# ========================
+
+# 博客字数统计
+wordcount:
+  enable: true
+  post_wordcount: true
+  min2read: true
+  total_wordcount: true
+
+# 不蒜子统计
+busuanzi:
+  site_uv: true
+  site_pv: true
+  page_pv: true
+
+# ========================
 # 搜索
+# ========================
 search:
   use: local_search
   placeholder: 搜索文章...
@@ -65,62 +236,96 @@ search:
     pagination:
       enable: false
 
+# ========================
 # 评论系统（自建后端）
+# ========================
 comments:
   use: false
-  text: false
-  lazyload: false
-  count: false
 
-# 侧边栏（完全禁用）
-aside:
-  enable: false
-
-# 页脚
-footer:
-  owner:
-    enable: true
-    since: 2026
-  custom_text:
-  copyright: true
-
-# 页面默认显示模式
-display_mode: light
-
-# 主色
+# ========================
+# 主题美化
+# ========================
 theme_color:
   enable: true
-  main: "#146bb7"
-  paginator: "#146bb7"
-  button_hover: "#0d4f8c"
-  link_color: "#146bb7"
-  meta_color: "#999"
-  hr_color: "#eee"
-  blockquote_padding_color: "#146bb7"
-  blockquote_background_color: "#f8f9fa"
-  scrollbar_color: "#146bb7"
-  meta_theme_color_light: "#ffffff"
-  meta_theme_color_dark: "#0d0d0d"
+  main: '#667eea'
+  paginator: '#667eea'
+  button_hover: '#764ba2'
+  text_selection: '#667eea'
+  link_color: '#667eea'
+  meta_color: '#858585'
+  hr_color: '#A4D8FA'
+  code_foreground: '#F47466'
+  code_background: 'rgba(27, 31, 35, .05)'
+  toc_color: '#667eea'
+  blockquote_padding_color: '#667eea'
+  blockquote_background_color: '#f0f0ff'
+  scrollbar_color: '#667eea'
+  meta_theme_color_light: '#ffffff'
+  meta_theme_color_dark: '#0d0d0d'
 
-# 圆角
-rounded_corners_ui: false
+category_ui: index
 
-# Header/Footer 遮罩
+rounded_corners_ui: true
+text_align_justify: false
+
 mask:
-  header: false
-  footer: false
+  header: true
+  footer: true
 
-# 文章排版
-text_align_justify: true
+# ========================
+# 背景动画效果
+# ========================
+canvas_ribbon:
+  enable: false
 
-# PJAX 无刷新页面切换
+canvas_nest:
+  enable: true
+  color: '102,126,234'
+  opacity: 0.5
+  zIndex: -1
+  count: 99
+  mobile: false
+
+# ========================
+# 鼠标点击效果
+# ========================
+click_heart:
+  enable: true
+  mobile: false
+
+# ========================
+# 图片浏览
+# ========================
+lightbox: fancybox
+
+# ========================
+# 页面过渡
+# ========================
 pjax:
   enable: true
+  exclude:
 
-# Inject 自定义 CSS
+enter_transitions: true
+
+# ========================
+# 文章排版
+# ========================
+beautify:
+  enable: true
+  field: post
+  title_prefix_icon: '\f0f6'
+
+hr_icon:
+  enable: true
+  icon: '\f0c4'
+
+# ========================
+# Inject 自定义代码
+# ========================
 inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
     - <link rel="stylesheet" href="/css/comment.css">
+    - <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   bottom:
     - <script src="/js/comment.js"></script>

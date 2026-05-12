@@ -72,13 +72,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void syncArticle(String title, String slug, String category, String tags, String summary) {
+    public void syncArticle(String title, String slug, String category, String summary) {
         Article existing = articleMapper.selectOne(
                 new LambdaQueryWrapper<Article>().eq(Article::getSlug, slug));
         if (existing != null) {
             existing.setTitle(title);
             existing.setCategory(category);
-            existing.setTags(tags);
             existing.setSummary(summary);
             articleMapper.updateById(existing);
         } else {
@@ -86,7 +85,6 @@ public class ArticleServiceImpl implements ArticleService {
             article.setTitle(title);
             article.setSlug(slug);
             article.setCategory(category);
-            article.setTags(tags);
             article.setSummary(summary);
             article.setStatus("published");
             articleMapper.insert(article);
@@ -120,9 +118,6 @@ public class ArticleServiceImpl implements ArticleService {
             if (article.getCategory() != null && !article.getCategory().isBlank()) {
                 md.append("categories: ").append(article.getCategory()).append("\n");
             }
-            if (article.getTags() != null && !article.getTags().isBlank()) {
-                md.append("tags: [").append(article.getTags()).append("]\n");
-            }
             md.append("---\n\n");
             if (article.getContent() != null) {
                 md.append(article.getContent());
@@ -151,7 +146,7 @@ public class ArticleServiceImpl implements ArticleService {
             if (dir == null) throw new RuntimeException("无法确定博客根目录");
             dir = dir.getParent(); // source/_posts -> source -> 博客根目录
             ProcessBuilder pb = new ProcessBuilder();
-            pb.command("npx", "hexo", "generate");
+            pb.command("cmd", "/c", "npx hexo generate");
             pb.directory(dir.toFile());
             pb.redirectErrorStream(true);
             Process process = pb.start();

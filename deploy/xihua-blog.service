@@ -1,0 +1,28 @@
+[Unit]
+Description=溪花博客后端 API
+After=network.target docker.service
+Wants=docker.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/var/www/xihua-blog/backend
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+Environment=MYSQL_PASSWORD=your_mysql_password_here
+Environment=JWT_SECRET=your_jwt_secret_here_at_least_32_chars
+
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java \
+  -jar /var/www/xihua-blog/backend/target/blog-backend-1.0.0.jar \
+  --spring.profiles.active=prod
+
+Restart=always
+RestartSec=10
+StartLimitInterval=300
+StartLimitBurst=5
+
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

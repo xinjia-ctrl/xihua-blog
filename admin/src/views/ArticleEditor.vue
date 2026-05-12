@@ -21,9 +21,6 @@
         <el-form-item label="分类" style="width:200px;">
           <el-input v-model="form.category" placeholder="分类" />
         </el-form-item>
-        <el-form-item label="标签" style="flex:1;min-width:200px;">
-          <el-input v-model="form.tags" placeholder="标签1,标签2" />
-        </el-form-item>
         <el-form-item label="状态" style="width:150px;">
           <el-select v-model="form.status">
             <el-option label="发布" value="published" />
@@ -57,6 +54,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 import request from '../utils/request'
 
 const route = useRoute()
@@ -68,7 +66,6 @@ const form = ref({
   title: '',
   slug: '',
   category: '',
-  tags: '',
   summary: '',
   content: '',
   status: 'published'
@@ -77,7 +74,7 @@ const form = ref({
 const previewHtml = computed(() => {
   if (!form.value.content) return '<div style="color:#ccc;padding:40px;text-align:center;">预览区域</div>'
   try {
-    return marked(form.value.content)
+    return DOMPurify.sanitize(marked(form.value.content))
   } catch {
     return '<div style="color:#f56c6c;">渲染失败</div>'
   }

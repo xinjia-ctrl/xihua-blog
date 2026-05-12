@@ -13,7 +13,7 @@ timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: http://8.136.216.143
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -23,7 +23,6 @@ pretty_urls:
 # Directory
 source_dir: source
 public_dir: public
-tag_dir: tags
 archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
@@ -47,7 +46,10 @@ syntax_highlighter: prismjs
 highlight:
   enable: false
 prismjs:
-  enable: false
+  enable: true
+  preprocess: true
+  line_number: true
+  tab_replace: ''
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -61,7 +63,6 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
-tag_map:
 
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta

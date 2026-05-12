@@ -29,9 +29,10 @@ request.interceptors.response.use(
     return res
   },
   error => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       localStorage.removeItem('token')
       router.push('/login')
+      return Promise.reject(error)
     }
     ElMessage.error(error.message || '网络错误')
     return Promise.reject(error)

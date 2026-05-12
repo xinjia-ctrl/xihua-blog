@@ -7,6 +7,10 @@ spring:
   profiles:
     active: dev
 
+jwt:
+  secret: xihua-blog-jwt-secret-key-at-least-256-bits-long-for-hs256-algorithm
+  expiration: 86400000
+
 blog:
   source-posts: ../source/_posts
 
@@ -17,18 +21,13 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:h2:file:./data/xihua_blog;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    url: jdbc:mysql://127.0.0.1:3307/xihua_blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: xihua_blog_2024
   sql:
     init:
-      mode: always
-      schema-locations: classpath:schema.sql
+      mode: never
 
 mybatis-plus:
   configuration:
@@ -38,19 +37,23 @@ mybatis-plus:
     banner: false
 
 ---
-# 生产环境（MySQL）
+# 生产环境（Docker MySQL）
 spring:
   config:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:mysql://localhost:3306/xihua_blog?useUnicode=true&characterEncoding=utf-8&useSSL=true&requireSSL=true&verifyServerCertificate=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/xihua_blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: ${MYSQL_PASSWORD}
+    password: ${MYSQL_PASSWORD:xihua_blog_2024}
   sql:
     init:
       mode: never
+
+jwt:
+  secret: ${JWT_SECRET:xihua-blog-jwt-secret-key-at-least-256-bits-long-for-hs256-algorithm}
+  expiration: 86400000
 
 mybatis-plus:
   configuration:

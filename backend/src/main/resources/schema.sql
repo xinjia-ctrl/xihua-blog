@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS xh_article (
     title VARCHAR(200) NOT NULL,
     slug VARCHAR(200) NOT NULL UNIQUE,
     category VARCHAR(100),
-    tags VARCHAR(500),
     summary TEXT,
     content MEDIUMTEXT,
     status VARCHAR(20) DEFAULT 'published',

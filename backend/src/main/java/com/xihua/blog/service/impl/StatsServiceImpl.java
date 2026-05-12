@@ -25,24 +25,6 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public void recordVisit(String ip, String userAgent) {
-        LocalDate today = LocalDate.now();
-        Stats stats = statsMapper.selectOne(
-                new LambdaQueryWrapper<Stats>().eq(Stats::getStatDate, today));
-        if (stats == null) {
-            stats = new Stats();
-            stats.setStatDate(today);
-            stats.setPageViews(1L);
-            stats.setUniqueVisitors(1L);
-            statsMapper.insert(stats);
-        } else {
-            stats.setPageViews(stats.getPageViews() + 1);
-            stats.setUniqueVisitors(stats.getUniqueVisitors() + 1);
-            statsMapper.updateById(stats);
-        }
-    }
-
-    @Override
     public Map<String, Object> getOverview() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("articleCount", articleService.getArticleCount());

@@ -29,6 +29,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  const clearAndGoLogin = (msg) => {
+    localStorage.removeItem('token')
+    next({ name: 'Login', query: msg ? { msg } : {} })
+  }
 
   if (!token) {
     if (to.name !== 'Login') {
@@ -39,17 +43,19 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // 检查 JWT 中的角色
   try {
     const payload = JSON.parse(atob(token.split('.')[1]))
+    // 检查 token 是否过期
+    if (payload.exp && Date.now() >= payload.exp * 1000) {
+      clearAndGoLogin('登录已过期，请重新登录')
+      return
+    }
     if (payload.role !== 'ADMIN') {
-      localStorage.removeItem('token')
-      next({ name: 'Login', query: { msg: '无权访问管理后台' } })
+      clearAndGoLogin('无权访问管理后台')
       return
     }
   } catch {
-    localStorage.removeItem('token')
-    next({ name: 'Login' })
+    clearAndGoLogin()
     return
   }
 
